@@ -11,10 +11,8 @@ public class ControladorSignos {
         this.vista = vista;
     }
 
-    public void iniciarRegistro() {
-
+    public void iniciarRegistro() throws InterruptedException {
         SignoVital signos = RegistroSignos.generarSignos();
-
         vista.mostrarSignos(signos);
     }
 }
