@@ -26,5 +26,4 @@ public class SignoVital {
     public void setPulsoCardiaco(int pulsoCardiaco) {
         this.pulsoCardiaco = pulsoCardiaco;
     }
-
 }
