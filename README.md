@@ -1,1 +1,0 @@
-Este es un pequeño MVC que se encarga de medir los pulsos vitales. Está diseñado para poder utilizarse en el futuro como software para "VitalBand". Proyecto para el curso "Diseño de Productos y Servicios"

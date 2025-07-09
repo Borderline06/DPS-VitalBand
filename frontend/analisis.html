@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Análisis de Salud</title>
+  <link rel="stylesheet" href="./css/analisis.css" />
+</head>
+<body>
+  <div class="analisis-container">
+    <!-- Encabezado de usuario -->
+    <div class="user-header">
+  <div class="user-info">
+    
+    <div>
+      <h2 id="saludoUsuario">¡Listo para tu análisis, <span id="userName">Usuario</span>!</h2>
+      <p id="userEmail">correo@ejemplo.com</p>
+    </div>
+  </div>
+  <button class="volver-btn" onclick="window.location.href='index.html'">← Volver al menú</button>
+</div>
+
+    <!-- Título -->
+    <h1 class="analisis-title">Análisis de Salud</h1>
+    <!-- Imagen central -->
+    <img src="img/corazon.png" class="analisis-img" alt="Corazón" />
+
+    <!-- Tarjetas de métricas -->
+    <div class="metricas-grid">
+      <div class="metrica-card">
+        <span class="metrica-icon">❤️</span>
+        <div class="metrica-label">Frecuencia Cardíaca</div>
+        <div id="fc" class="metrica-valor">-- lpm</div>
+      </div>
+      <div class="metrica-card">
+        <span class="metrica-icon">💧</span>
+        <div class="metrica-label">Saturación de Oxígeno</div>
+        <div id="so" class="metrica-valor">--%</div>
+      </div>
+      <div class="metrica-card">
+        <span class="metrica-icon">🏃</span>
+        <div class="metrica-label">Pasos</div>
+        <div id="pasos" class="metrica-valor">--</div>
+      </div>
+      <div class="metrica-card">
+        <span class="metrica-icon">🔥</span>
+        <div class="metrica-label">Calorías Quemadas</div>
+        <div id="calorias" class="metrica-valor">-- kcal</div>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="acciones-analisis">
+      <button id="btnNuevo" class="nuevo-btn">Nuevo análisis</button>
+      <button id="btnGuardar" class="guardar-btn">Guardar</button>
+    </div>
+
+    <!-- Estado de signos vitales -->
+    <div id="estadoAnalisis" class="estado-analisis"></div>
+  </div>
+  <script src="./js/analisis.js"></script>
+  <script>
+  // Inyección dinámica del usuario desde localStorage
+  const usuarioStr = localStorage.getItem('usuario');
+  if (usuarioStr) {
+    const usuario = JSON.parse(usuarioStr);
+    document.getElementById('userName').textContent = usuario.nombre;
+    document.getElementById('userEmail').textContent = usuario.correo;
+    document.getElementById('saludoUsuario').innerHTML = `¡Listo para tu análisis, <span id="userName">${usuario.nombre}</span>!`;
+  }
+</script>
+</body>
+</html>

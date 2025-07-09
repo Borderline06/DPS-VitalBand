@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificación | VitalBand</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Verifique su correo electrónico</h2>
+    <h1>VitalBand</h1>
+    <img src="img/3.png" alt="Ilustración" class="illustration">
+    <form id="verifyForm">
+      <input type="email" id="correo" placeholder="Correo" required>
+      <div class="code-inputs">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+        </div>
+      <button type="submit">Verificar</button>
+    </form>
+    <p><a href="#">Reenviar código</a></p>
+  </div>
+  <script src="js/verify.js"></script>
+</body>
+</html>

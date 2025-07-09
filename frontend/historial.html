@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Historial de Análisis - VitalBand</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      color: #1a237e;
+    }
+    .user-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .user-info h2 {
+      margin: 0 0 4px 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .user-info p {
+      margin: 0;
+      color: #607d8b;
+      font-size: 0.9rem;
+    }
+    .volver-btn {
+      background: #1a237e;
+      color: #fff;
+      border: none;
+      border-radius: 22px;
+      padding: 10px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .volver-btn:hover {
+      background: #3949ab;
+    }
+    h1 {
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #1a237e;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #3949ab;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f5f7fa;
+    }
+    .mensaje {
+      margin-top: 30px;
+      font-size: 1.1rem;
+      color: #555;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="user-header">
+    <div class="user-info">
+      <h2>¡Hola, <span id="userName">Usuario</span>!</h2>
+      <p id="userEmail">correo@ejemplo.com</p>
+    </div>
+    <button class="volver-btn" onclick="window.location.href='index.html'">← Volver al menú</button>
+  </div>
+
+  <h1>Historial de Análisis</h1>
+
+  <div id="contenidoHistorial">
+    <!-- Aquí se mostrará la tabla o mensaje -->
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const usuarioStr = localStorage.getItem('usuario');
+      if (!usuarioStr) {
+        window.location.href = 'login.html';
+        return;
+      }
+      const usuario = JSON.parse(usuarioStr);
+      document.getElementById('userName').textContent = usuario.nombre;
+      document.getElementById('userEmail').textContent = usuario.correo;
+
+      function mostrarMensaje(mensaje) {
+        const contenedor = document.getElementById('contenidoHistorial');
+        contenedor.innerHTML = `<p class="mensaje">${mensaje}</p>`;
+      }
+
+      function crearTabla(analisisList) {
+        const tabla = document.createElement('table');
+        tabla.innerHTML = `
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${analisisList.map(a => `
+              <tr>
+                <td>${new Date(a.fecha).toLocaleDateString()}</td>
+                <td>${a.detalle || 'Sin detalle'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        `;
+        return tabla;
+      }
+
+      function obtenerHistorialUsuario(usuarioId) {
+        return fetch(`http://localhost:8080/api/historial-analisis/usuario/${usuarioId}`)
+          .then(response => {
+            if (response.status === 204) return [];
+            if (!response.ok) throw new Error('Error al obtener análisis');
+            return response.json();
+          });
+      }
+
+      obtenerHistorialUsuario(usuario.id)
+        .then(historialList => {
+          const contenedor = document.getElementById('contenidoHistorial');
+          if (!historialList || historialList.length === 0) {
+            mostrarMensaje('No tienes análisis guardados aún.');
+            return;
+          }
+          contenedor.innerHTML = '';
+          contenedor.appendChild(crearTabla(historialList));
+        })
+        .catch(error => {
+          console.error(error);
+          mostrarMensaje('Error al cargar el historial.');
+        });
+    });
+  </script>
+</body>
+</html>
